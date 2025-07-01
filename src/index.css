@@ -1,0 +1,19 @@
+/*
+  COLE ESTE CÓDIGO NO SEU ARQUIVO CSS GLOBAL
+  (geralmente src/index.css ou src/main.css)
+*/
+
+/* Remove margens e paddings padrões do navegador */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Roboto', 'Arial', sans-serif;
+}
+
+/* Garante que o container raiz do React ocupe toda a altura e largura */
+#root {
+  min-height: 100%;
+  width: 100%;
+}
