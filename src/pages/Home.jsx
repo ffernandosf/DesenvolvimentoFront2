@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import db from '../data/db.json';
+import { apiService } from '../services/api';
 
 const Home = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const data = await apiService.getUsers();
+        setUsers(data);
+      } catch (err) {
+        setError('Erro ao carregar usuários');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  if (loading) return <div style={{textAlign: 'center', padding: '20px'}}>Carregando...</div>;
+  if (error) return <div style={{textAlign: 'center', padding: '20px', color: 'red'}}>{error}</div>;
   return (
     <div style={{
       padding: '20px',
@@ -33,7 +53,7 @@ const Home = () => {
           display: 'grid',
           gap: '15px'
         }}>
-          {db.users.map(user => (
+          {users.map(user => (
             <div key={user.id} style={{
               backgroundColor: 'white',
               padding: '15px',

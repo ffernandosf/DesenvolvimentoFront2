@@ -1,28 +1,31 @@
-// src/pages/Perfil.jsx
 
-import React from 'react';
-// Removemos a importação do 'Link', pois não será mais usado aqui
+
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; 
-import db from '../data/db.json';
+import { apiService } from '../services/api';
 
 const Perfil = () => {
-  // Pega o ID do usuário da URL
   const { userId } = useParams();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Busca o usuário correspondente no nosso "banco de dados"
-  const user = db.users.find(u => u.id === parseInt(userId));
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const data = await apiService.getUserById(userId);
+        setUser(data);
+      } catch (err) {
+        setError('Usuário não encontrado!');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, [userId]);
 
-  // Se o usuário não for encontrado, exibe uma mensagem
-  if (!user) {
-    return (
-      <div style={{
-        padding: '20px',
-        textAlign: 'center'
-      }}>
-        <h1 style={{ color: '#dc3545' }}>Usuário não encontrado!</h1>
-      </div>
-    );
-  }
+  if (loading) return <div style={{textAlign: 'center', padding: '20px'}}>Carregando...</div>;
+  if (error) return <div style={{textAlign: 'center', padding: '20px', color: '#dc3545'}}><h1>{error}</h1></div>;
 
   // Renderiza apenas as informações do usuário encontrado
   return (
@@ -73,8 +76,18 @@ const Perfil = () => {
             borderRadius: '6px',
             border: '1px solid #e9ecef'
           }}>
-            <strong style={{ color: '#495057' }}>Cargo:</strong>
-            <span style={{ marginLeft: '10px', color: '#6c757d' }}>{user.role}</span>
+            <strong style={{ color: '#495057' }}>Telefone:</strong>
+            <span style={{ marginLeft: '10px', color: '#6c757d' }}>{user.phone}</span>
+          </div>
+          
+          <div style={{
+            padding: '15px',
+            backgroundColor: 'white',
+            borderRadius: '6px',
+            border: '1px solid #e9ecef'
+          }}>
+            <strong style={{ color: '#495057' }}>Website:</strong>
+            <span style={{ marginLeft: '10px', color: '#6c757d' }}>{user.website}</span>
           </div>
         </div>
       </div>
