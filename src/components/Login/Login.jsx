@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import users from '../../data/db.json';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aqui você faria a validação do login
-    // Por enquanto, vamos apenas navegar para /home
-    navigate('/home');
+    setErro('');
+    
+    // Busca usuários do localStorage e do db.json
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const allUsers = [...users.users, ...storedUsers];
+    
+    const user = allUsers.find(u => u.username === usuario && u.password === senha);
+    
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/home');
+    } else {
+      setErro('Usuário ou senha inválidos');
+    }
   };
 
   return (
@@ -33,10 +46,10 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '20px' }}>
             <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Usuário"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
               style={{
                 width: '100%',
                 padding: '12px',
@@ -63,6 +76,16 @@ const Login = () => {
               required
             />
           </div>
+          {erro && (
+            <div style={{
+              color: 'red',
+              marginBottom: '20px',
+              textAlign: 'center',
+              fontSize: '14px'
+            }}>
+              {erro}
+            </div>
+          )}
           <button
             type="submit"
             style={{
@@ -79,6 +102,21 @@ const Login = () => {
             Entrar
           </button>
         </form>
+        
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <button
+            onClick={() => navigate('/registro')}
+            style={{
+              backgroundColor: 'transparent',
+              color: '#007bff',
+              border: 'none',
+              cursor: 'pointer',
+              textDecoration: 'underline'
+            }}
+          >
+            Não tem conta? Cadastre-se
+          </button>
+        </div>
       </div>
     </div>
   );

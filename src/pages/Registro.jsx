@@ -1,18 +1,48 @@
 import React, { useState } from 'react';
-import { apiService } from '../services/api';
+import { useNavigate } from 'react-router-dom';
+import users from '../data/db.json';
 
 const Registro = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const [formData, setFormData] = useState({ name: '', username: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    
     try {
-      await apiService.createUser(formData);
+      // Pega usuários do localStorage ou usa os padrão do db.json
+      const storedUsers = JSON.parse(localStorage.getItem('users') || JSON.stringify(users.users));
+      
+      // Verifica se username já existe
+      const userExists = storedUsers.find(u => u.username === formData.username);
+      if (userExists) {
+        setMessage('Nome de usuário já existe!');
+        setLoading(false);
+        return;
+      }
+
+      // Cria novo usuário
+      const newUser = {
+        id: storedUsers.length + 1,
+        name: formData.name,
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        role: 'User'
+      };
+
+      // Salva no localStorage
+      const updatedUsers = [...storedUsers, newUser];
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+      
       setMessage('Usuário criado com sucesso!');
-      setFormData({ name: '', email: '', phone: '' });
+      setFormData({ name: '', username: '', email: '', password: '' });
+      
+      // Redireciona para login após 2 segundos
+      setTimeout(() => navigate('/'), 2000);
     } catch (error) {
       setMessage('Erro ao criar usuário');
     } finally {
@@ -34,6 +64,14 @@ const Registro = () => {
           style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
         />
         <input
+          type="text"
+          placeholder="Nome de usuário"
+          value={formData.username}
+          onChange={(e) => setFormData({...formData, username: e.target.value})}
+          required
+          style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
+        />
+        <input
           type="email"
           placeholder="Email"
           value={formData.email}
@@ -42,10 +80,10 @@ const Registro = () => {
           style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
         />
         <input
-          type="tel"
-          placeholder="Telefone"
-          value={formData.phone}
-          onChange={(e) => setFormData({...formData, phone: e.target.value})}
+          type="password"
+          placeholder="Senha"
+          value={formData.password}
+          onChange={(e) => setFormData({...formData, password: e.target.value})}
           required
           style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
         />
@@ -65,12 +103,30 @@ const Registro = () => {
         </button>
       </form>
       
+      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <button
+          onClick={() => navigate('/')}
+          style={{
+            backgroundColor: 'transparent',
+            color: '#007bff',
+            border: 'none',
+            cursor: 'pointer',
+            textDecoration: 'underline'
+          }}
+        >
+          Já tem conta? Fazer login
+        </button>
+      </div>
+      
       {message && (
         <div style={{
           marginTop: '20px',
           padding: '10px',
           textAlign: 'center',
-          color: message.includes('sucesso') ? 'green' : 'red'
+          backgroundColor: message.includes('sucesso') ? '#d4edda' : '#f8d7da',
+          color: message.includes('sucesso') ? '#155724' : '#721c24',
+          border: `1px solid ${message.includes('sucesso') ? '#c3e6cb' : '#f5c6cb'}`,
+          borderRadius: '4px'
         }}>
           {message}
         </div>

@@ -1,10 +1,8 @@
-// src/main.jsx
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-// Importe suas páginas e componentes
 import Login from './components/Login/Login';
 import Registro from './pages/Registro';
 import Home from './pages/Home';
@@ -13,7 +11,7 @@ import LayoutPadrao from './components/LayoutPadrao/LayoutPadrao';
 
 // Crie o roteador com a nova estrutura
 const router = createBrowserRouter([
-  // ROTA PRINCIPAL: Agora é a página de Login
+ 
   {
     path: '/',
     element: <Login />,
@@ -23,13 +21,13 @@ const router = createBrowserRouter([
     path: '/registro',
     element: <Registro />,
   },
-  // ROTAS PROTEGIDAS / INTERNAS: Ficam dentro do Layout Padrão
+  
   {
-    element: <LayoutPadrao />, // O layout agora "envolve" as rotas filhas
-    // Todas as rotas aqui dentro terão o menu de navegação
+    element: <LayoutPadrao />, // Envolve as rotas filhas
+  
     children: [
       {
-        path: '/home', // A página inicial agora está em "/home"
+        path: '/home',
         element: <Home />,
       },
       {
