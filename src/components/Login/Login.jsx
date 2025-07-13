@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import users from '../../data/db.json';
+import { authService } from '../../services/api';
 
 const Login = () => {
   const [usuario, setUsuario] = useState('');
@@ -19,7 +20,13 @@ const Login = () => {
     const user = allUsers.find(u => u.username === usuario && u.password === senha);
     
     if (user) {
+      // Gera um token simulado (em produção viria do backend)
+      const token = btoa(`${user.username}:${Date.now()}`);
+      
+      // Salva o token e dados do usuário
+      authService.setToken(token);
       localStorage.setItem('user', JSON.stringify(user));
+      
       navigate('/home');
     } else {
       setErro('Usuário ou senha inválidos');

@@ -1,7 +1,16 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { authService } from '../../services/api';
 
 const LayoutPadrao = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    authService.removeToken();
+    localStorage.removeItem('user');
+    navigate('/');
+  };
+
   return (
     <div>
       <nav style={{
@@ -31,18 +40,19 @@ const LayoutPadrao = () => {
             >
               Home
             </Link>
-            <Link 
-              to="/" 
+            <button 
+              onClick={handleLogout}
               style={{
                 color: 'white',
-                textDecoration: 'none',
+                backgroundColor: 'rgba(255,255,255,0.1)',
+                border: 'none',
                 padding: '8px 12px',
                 borderRadius: '4px',
-                backgroundColor: 'rgba(255,255,255,0.1)'
+                cursor: 'pointer'
               }}
             >
               Sair
-            </Link>
+            </button>
           </div>
         </div>
       </nav>

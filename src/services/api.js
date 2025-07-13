@@ -7,6 +7,50 @@ const api = axios.create({
   timeout: 5000,
 });
 
+// Interceptor para adicionar token nas requisições
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Interceptor para tratar respostas e erros de autenticação
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userData');
+      window.location.href = '/';
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Funções para gerenciar autenticação
+export const authService = {
+  setToken(token) {
+    localStorage.setItem('authToken', token);
+  },
+
+  getToken() {
+    return localStorage.getItem('authToken');
+  },
+
+  removeToken() {
+    localStorage.removeItem('authToken');
+  },
+
+  isAuthenticated() {
+    return !!this.getToken();
+  }
+};
+
 export const apiService = {
   async getUsers() {
     const response = await api.get('/users');
@@ -23,3 +67,5 @@ export const apiService = {
     return response.data;
   }
 };
+
+export default api;
