@@ -7,6 +7,7 @@ import Login from './components/Login/Login';
 import Registro from './pages/Registro';
 import Home from './pages/Home';
 import Perfil from './pages/Perfil';
+import AdicionarUsuario from './pages/AdicionarUsuario';
 import LayoutPadrao from './components/LayoutPadrao/LayoutPadrao';
 
 // Crie o roteador com a nova estrutura
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '/perfil/:userId',
         element: <Perfil />,
+      },
+      {
+        path: '/adicionar',
+        element: <AdicionarUsuario />,
       },
     ],
   },

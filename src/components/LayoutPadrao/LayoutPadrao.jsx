@@ -25,20 +25,33 @@ const LayoutPadrao = () => {
           maxWidth: '800px',
           margin: '0 auto'
         }}>
-          <h2 style={{ color: 'white', margin: 0 }}>Luz Control</h2>
+          <h2 style={{ color: 'white', margin: 0 }}>EcoWATT</h2>
           <div>
             <Link 
               to="/home" 
               style={{
                 color: 'white',
                 textDecoration: 'none',
-                marginRight: '20px',
+                marginRight: '15px',
                 padding: '8px 12px',
                 borderRadius: '4px',
                 backgroundColor: 'rgba(255,255,255,0.1)'
               }}
             >
               Home
+            </Link>
+            <Link 
+              to="/adicionar" 
+              style={{
+                color: 'white',
+                textDecoration: 'none',
+                marginRight: '15px',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                backgroundColor: 'rgba(255,255,255,0.1)'
+              }}
+            >
+              Adicionar
             </Link>
             <button 
               onClick={handleLogout}

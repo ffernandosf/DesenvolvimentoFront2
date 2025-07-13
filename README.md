@@ -1,4 +1,4 @@
-# Luz Control - Sistema de Gerenciamento
+# EcoWATT - Sistema de Gerenciamento
 
 
 ## 🚀 Como Inicializar o Projeto
@@ -36,7 +36,7 @@ npm test
 
 ## 📋 Status dos Requisitos
 
-### ✅ **IMPLEMENTADOS (8/8)**
+### ✅ **IMPLEMENTADOS (9/9)**
 
 #### 1. **React Router** ✅
 - **Localização**: `src/main.jsx`
@@ -62,12 +62,14 @@ npm test
 - **Implementação**: `const { userId } = useParams()`
 - **Rota**: `/perfil/:userId`
 
-#### 6. **Recursos da API (3+)** ✅
+#### 6. **Recursos da API (5)** ✅
 - **Localização**: `src/services/api.js`
 - **Recursos implementados**:
   - `getUsers()` - Lista usuários (Home)
   - `getUserById(id)` - Busca usuário (Perfil)
-  - `createUser(data)` - Cria usuário (Registro)
+  - `createUser(data)` - Cria usuário (Adicionar)
+  - `updateUser(id, data)` - Atualiza usuário (Home)
+  - `deleteUser(id)` - Remove usuário (Home)
 
 #### 7. **Testes com Dados Mockados** ✅
 - **Localização**: `src/test/`
@@ -84,6 +86,14 @@ npm test
   - Headers de autorização em todas as requisições
   - Logout automático em caso de erro 401
   - Funções para gerenciar token (authService)
+
+#### 9. **CRUD Completo** ✅
+- **Localização**: `src/services/api.js` e `src/pages/`
+- **Implementação**:
+  - **Create**: Adicionar usuários (`/adicionar`)
+  - **Read**: Listar e visualizar usuários (`/home`, `/perfil/:id`)
+  - **Update**: Editar usuários inline na Home
+  - **Delete**: Excluir usuários com confirmação
 
 ## 🏗️ Estrutura do Projeto
 
@@ -145,7 +155,7 @@ npm run test:ui   # Interface gráfica dos testes
 
 ## 🎉 Projeto Completo!
 
-**Todos os 8 requisitos foram implementados com sucesso!**
+**Todos os 9 requisitos foram implementados com sucesso!**
 
 ### 🔐 Sistema de Autenticação Bearer Token
 
