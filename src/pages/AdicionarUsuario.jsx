@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { apiService } from '../services/api';
 
 const AdicionarUsuario = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', website: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const AdicionarUsuario = () => {
       // Salva localmente para exibir na lista
       const localUsers = JSON.parse(localStorage.getItem('newUsers') || '[]');
       const newUser = {
-        id: Date.now(), // ID único baseado no timestamp
+        id: Date.now(), 
         ...formData
       };
       localUsers.push(newUser);
@@ -61,13 +61,7 @@ const AdicionarUsuario = () => {
           onChange={(e) => setFormData({...formData, phone: e.target.value})}
           style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
         />
-        <input
-          type="text"
-          placeholder="Website"
-          value={formData.website}
-          onChange={(e) => setFormData({...formData, website: e.target.value})}
-          style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
-        />
+
         <button
           type="submit"
           disabled={loading}
