@@ -76,11 +76,18 @@ npm test
   - **Localização**: `src/context/`
   - **Implementação**:
     - `ApiContext.jsx` - Gerencia chamadas à API e estado relacionado
+      - Funções: `getUsers()`, `getUserById()`, `createUser()`, `updateUser()`, `deleteUser()`
+      - Hook personalizado: `useApi()` para acesso ao contexto
     - `AuthContext.jsx` - Gerencia autenticação e estado do usuário
+      - Funções: `login()`, `logout()`, `register()`
+      - Hook personalizado: `useAuth()` para acesso ao contexto
 
 - ✅ **Estilização com SASS**
   - **Localização**: `src/index.sass`
-  - **Implementação**: Utiliza recursos SASS como variáveis, aninhamento e BEM
+  - **Implementação**: 
+    - Componente Card com variáveis SASS (`$primary-color`, `$secondary-color`, etc)
+    - Utiliza recursos SASS como aninhamento (`&__header`, `&__body`)
+    - Implementa modificadores BEM (`&--primary`, `&--success`, `&--danger`)
 
 - ✅ **Utilizar useNavigate para navegação**
   - **Localização**: Em vários componentes como `Login.jsx`, `Registro.jsx`, `AdicionarUsuario.jsx`
@@ -126,6 +133,10 @@ npm test
     - **Read**: Listar e visualizar usuários (`/home`, `/perfil/:id`)
     - **Update**: Editar usuários inline na Home
     - **Delete**: Excluir usuários com confirmação
+
+- ❌ **Integração com backend real**
+  - **Status**: Pendente
+  - **Descrição**: Atualmente utilizando API mockada (jsonplaceholder). Integração com backend real será implementada em versão futura.
 
 ## 🏗️ Estrutura do Projeto
 
@@ -186,3 +197,10 @@ npm run test:ui   # Interface gráfica dos testes
 - **Vitest 2.1.8** - Framework de testes
 - **Testing Library** - Testes de componentes
 - **Context API** - Gerenciamento de estado
+
+## 📝 Próximos Passos
+
+- Integração com backend real
+- Implementação de refresh token
+- Melhorias na interface do usuário
+- Expansão dos testes automatizados
