@@ -1,5 +1,6 @@
 # EcoWATT - Sistema de Gerenciamento
 
+Sistema de gerenciamento desenvolvido com React, utilizando React Router, Context API, SASS e integração com API externa.
 
 ## 🚀 Como Inicializar o Projeto
 
@@ -34,74 +35,97 @@ npm test
 - URL: `http://localhost:5173`
 - Login padrão: `admin` / `1234`
 
-## 📋 Status dos Requisitos
+## 📋 Atividades e Requisitos Implementados
 
-### ✅ **IMPLEMENTADOS (10/10)**
+### Atividade 4: Criação de Rotas
 
-#### 1. **React Router** ✅
-- **Localização**: `src/main.jsx`
-- **Implementação**: `createBrowserRouter` e `RouterProvider`
-- **Rotas configuradas**: `/`, `/registro`, `/home`, `/perfil/:userId`
+#### Requisitos:
+- ✅ **Usar a biblioteca React Router**
+  - **Localização**: `src/main.jsx`
+  - **Implementação**: Utiliza `createBrowserRouter` e `RouterProvider`
+  - **Rotas configuradas**: `/`, `/registro`, `/home`, `/perfil/:userId`, `/adicionar`
 
-#### 2. **Rotas Aninhadas com Layout Padrão** ✅
-- **Localização**: `src/components/LayoutPadrao/LayoutPadrao.jsx`
-- **Implementação**: Componente com `<Outlet />` para rotas filhas
-- **Rotas protegidas**: `/home` e `/perfil/:userId` usam o layout
+- ✅ **Utilizar rotas aninhadas para manter um leiaute padrão**
+  - **Localização**: `src/components/LayoutPadrao/LayoutPadrao.jsx`
+  - **Implementação**: Componente com `<Outlet />` para rotas filhas
+  - **Rotas protegidas**: `/home`, `/perfil/:userId` e `/adicionar` usam o layout padrão
 
-#### 3. **Páginas de Login e Registro** ✅
-- **Login**: `src/components/Login/Login.jsx` (rota `/`)
-- **Registro**: `src/pages/Registro.jsx` (rota `/registro`)
-- **Funcionalidades**: Validação, localStorage, navegação
+- ✅ **Configurar as páginas de login e registro**
+  - **Login**: `src/components/Login/Login.jsx` (rota `/`)
+  - **Registro**: `src/pages/Registro.jsx` (rota `/registro`)
+  - **Funcionalidades**: Validação, localStorage, navegação
 
-#### 4. **Duas Páginas Adicionais** ✅
-- **Home**: `src/pages/Home.jsx` - Lista usuários da API
-- **Perfil**: `src/pages/Perfil.jsx` - Detalhes do usuário
+- ✅ **Configurar rotas para outras DUAS páginas do projeto**
+  - **Home**: `src/pages/Home.jsx` (rota `/home`) - Lista usuários
+  - **Perfil**: `src/pages/Perfil.jsx` (rota `/perfil/:userId`) - Detalhes do usuário
+  - **Adicionar**: `src/pages/AdicionarUsuario.jsx` (rota `/adicionar`) - Formulário para adicionar usuário
 
-#### 5. **useParams** ✅
-- **Localização**: `src/pages/Perfil.jsx`
-- **Implementação**: `const { userId } = useParams()`
-- **Rota**: `/perfil/:userId`
+- ✅ **Usar parâmetros (useParams) em pelo menos uma rota**
+  - **Localização**: `src/pages/Perfil.jsx`
+  - **Implementação**: `const { userId } = useParams()`
+  - **Rota**: `/perfil/:userId`
 
-#### 6. **Recursos da API (5)** ✅
-- **Localização**: `src/services/api.js` e `src/context/ApiContext.jsx`
-- **Recursos implementados**:
-  - `getUsers()` - Lista usuários (Home)
-  - `getUserById(id)` - Busca usuário (Perfil)
-  - `createUser(data)` - Cria usuário (Adicionar)
-  - `updateUser(id, data)` - Atualiza usuário (Home)
-  - `deleteUser(id)` - Remove usuário (Home)
+- ✅ **Manter dados mockados**
+  - **Localização**: `src/data/db.json` e `localStorage`
+  - **Implementação**: Dados de usuários armazenados localmente
 
-#### 7. **Testes com Dados Mockados** ✅
-- **Localização**: `src/test/`
-- **Arquivos**:
-  - `Home.test.jsx` - Testa componente Home
-  - `mockData.test.js` - Testa operações com dados mockados
-  - `mockData.js` - Dados de teste
-- **Execução**: `npm test`
+### Atividade 5: Context API e Estilização SASS
 
-#### 8. **Autenticação Bearer Token** ✅
-- **Localização**: `src/services/api.js` e `src/context/AuthContext.jsx`
-- **Implementação**: 
-  - Interceptors do Axios para Bearer Token automático
-  - Headers de autorização em todas as requisições
-  - Logout automático em caso de erro 401
-  - Funções para gerenciar token (authService)
+#### Requisitos:
+- ✅ **Implementar Context API**
+  - **Localização**: `src/context/`
+  - **Implementação**:
+    - `ApiContext.jsx` - Gerencia chamadas à API e estado relacionado
+    - `AuthContext.jsx` - Gerencia autenticação e estado do usuário
 
-#### 9. **CRUD Completo** ✅
-- **Localização**: `src/context/ApiContext.jsx` e `src/pages/`
-- **Implementação**:
-  - **Create**: Adicionar usuários (`/adicionar`)
-  - **Read**: Listar e visualizar usuários (`/home`, `/perfil/:id`)
-  - **Update**: Editar usuários inline na Home
-  - **Delete**: Excluir usuários com confirmação
+- ✅ **Estilização com SASS**
+  - **Localização**: `src/index.sass`
+  - **Implementação**: Utiliza recursos SASS como variáveis, aninhamento e BEM
 
-#### 10. **Context API** ✅
-- **Localização**: `src/context/`
-- **Implementação**:
-  - `ApiContext.jsx` - Gerencia chamadas à API e estado relacionado
-  - `AuthContext.jsx` - Gerencia autenticação e estado do usuário
-  - Separação de responsabilidades entre componentes e lógica de negócio
-  - Centralização de chamadas à API e gerenciamento de estado
+- ✅ **Utilizar useNavigate para navegação**
+  - **Localização**: Em vários componentes como `Login.jsx`, `Registro.jsx`, `AdicionarUsuario.jsx`
+  - **Implementação**: `const navigate = useNavigate()` para redirecionamento
+
+- ✅ **Páginas de acesso restrito**
+  - **Localização**: `src/main.jsx` e `src/components/LayoutPadrao/LayoutPadrao.jsx`
+  - **Implementação**: Rotas protegidas dentro do LayoutPadrao
+  - **Autenticação**: Simulada através do localStorage com token
+
+### Atividade 6: Prime API Login
+
+#### Requisitos:
+- ✅ **Desenvolver páginas de acordo com recursos da API (pelo menos três)**
+  - **Recursos implementados**:
+    - `getUsers()` - Lista usuários (Home)
+    - `getUserById(id)` - Busca usuário (Perfil)
+    - `createUser(data)` - Cria usuário (Adicionar)
+    - `updateUser(id, data)` - Atualiza usuário (Home)
+    - `deleteUser(id)` - Remove usuário (Home)
+
+- ✅ **Implementar Testes com dados mockados**
+  - **Localização**: `src/test/`
+  - **Arquivos**:
+    - `Home.test.jsx` - Testa componente Home
+    - `mockData.test.js` - Testa operações com dados mockados
+    - `mockData.js` - Dados de teste
+
+- ✅ **Implementar autenticação Bearer Token com Axios**
+  - **Localização**: `src/services/api.js` e `src/context/AuthContext.jsx`
+  - **Implementação**: 
+    - Interceptors do Axios para Bearer Token automático
+    - Headers de autorização em todas as requisições
+    - Logout automático em caso de erro 401
+
+### Atividade 7: Dashboard CRUD
+
+#### Requisitos:
+- ✅ **Desenvolver CRUDs necessários de acordo com recursos da API**
+  - **Localização**: `src/context/ApiContext.jsx` e páginas relacionadas
+  - **Implementação**:
+    - **Create**: Adicionar usuários (`/adicionar`)
+    - **Read**: Listar e visualizar usuários (`/home`, `/perfil/:id`)
+    - **Update**: Editar usuários inline na Home
+    - **Delete**: Excluir usuários com confirmação
 
 ## 🏗️ Estrutura do Projeto
 
@@ -122,10 +146,12 @@ src/
 │   └── api.js            # Serviços da API
 ├── data/
 │   └── db.json           # Dados locais
-└── test/
-    ├── Home.test.jsx     # Testes do Home
-    ├── mockData.test.js  # Testes com dados mockados
-    └── mockData.js       # Dados de teste
+├── test/
+│   ├── Home.test.jsx     # Testes do Home
+│   ├── mockData.test.js  # Testes com dados mockados
+│   └── mockData.js       # Dados de teste
+├── index.sass            # Estilos SASS
+└── main.jsx              # Ponto de entrada da aplicação
 ```
 
 ## 🔐 Sistema de Autenticação
@@ -139,8 +165,8 @@ src/
 1. Usuário acessa `/`
 2. Insere credenciais
 3. Sistema valida contra `db.json` + `localStorage`
-4. Redireciona para `/home` se válido
-5. Dados do usuário salvos no `localStorage`
+4. Gera token Bearer e salva no localStorage
+5. Redireciona para `/home` se válido
 
 ## 🧪 Testes
 
@@ -150,46 +176,13 @@ npm test          # Executa todos os testes
 npm run test:ui   # Interface gráfica dos testes
 ```
 
-### Cobertura de Testes
-- ✅ Componente Home com dados da API
-- ✅ Operações CRUD mockadas
-- ✅ Validação de estrutura de dados
-- ✅ Simulação de login/registro
-
 ## 🛠️ Tecnologias Utilizadas
 
 - **React 19.1.0** - Framework principal
 - **React Router DOM 7.6.2** - Roteamento
 - **Axios 1.10.0** - Cliente HTTP
+- **SASS 1.89.2** - Pré-processador CSS
 - **Vite 6.3.5** - Build tool
 - **Vitest 2.1.8** - Framework de testes
 - **Testing Library** - Testes de componentes
 - **Context API** - Gerenciamento de estado
-
-## 🎉 Projeto Completo!
-
-**Todos os 10 requisitos foram implementados com sucesso!**
-
-### 🔐 Sistema de Autenticação Bearer Token
-
-- **Token gerado**: Automaticamente no login
-- **Headers automáticos**: Todas as requisições incluem `Authorization: Bearer <token>`
-- **Interceptors configurados**: Request e Response
-- **Logout automático**: Em caso de erro 401
-- **Gerenciamento**: Funções para set/get/remove token
-
-### 📝 Context API
-
-- **ApiContext**: Centraliza todas as chamadas à API
-  - Gerencia estado de loading e error
-  - Implementa funções para CRUD de usuários
-  - Lida com usuários locais e da API externa
-
-- **AuthContext**: Centraliza autenticação
-  - Gerencia login, logout e registro
-  - Mantém estado do usuário atual
-  - Integra com localStorage para persistência
-
-### 📝 Melhorias Futuras
-- Sistema de refresh token
-- Persistência real no backend
