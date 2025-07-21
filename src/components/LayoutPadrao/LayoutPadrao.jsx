@@ -1,13 +1,13 @@
 import React from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { authService } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 
 const LayoutPadrao = () => {
   const navigate = useNavigate();
+  const { logout, currentUser } = useAuth();
 
   const handleLogout = () => {
-    authService.removeToken();
-    localStorage.removeItem('user');
+    logout();
     navigate('/');
   };
 

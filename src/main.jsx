@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './index.sass';
 
 import Login from './components/Login/Login';
 import Registro from './pages/Registro';
@@ -9,6 +10,8 @@ import Home from './pages/Home';
 import Perfil from './pages/Perfil';
 import AdicionarUsuario from './pages/AdicionarUsuario';
 import LayoutPadrao from './components/LayoutPadrao/LayoutPadrao';
+import { ApiProvider } from './context/ApiContext';
+import { AuthProvider } from './context/AuthContext';
 
 // Crie o roteador com a nova estrutura
 const router = createBrowserRouter([
@@ -45,6 +48,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <ApiProvider>
+        <RouterProvider router={router} />
+      </ApiProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

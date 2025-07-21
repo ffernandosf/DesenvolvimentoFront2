@@ -36,7 +36,7 @@ npm test
 
 ## 📋 Status dos Requisitos
 
-### ✅ **IMPLEMENTADOS (9/9)**
+### ✅ **IMPLEMENTADOS (10/10)**
 
 #### 1. **React Router** ✅
 - **Localização**: `src/main.jsx`
@@ -63,7 +63,7 @@ npm test
 - **Rota**: `/perfil/:userId`
 
 #### 6. **Recursos da API (5)** ✅
-- **Localização**: `src/services/api.js`
+- **Localização**: `src/services/api.js` e `src/context/ApiContext.jsx`
 - **Recursos implementados**:
   - `getUsers()` - Lista usuários (Home)
   - `getUserById(id)` - Busca usuário (Perfil)
@@ -80,7 +80,7 @@ npm test
 - **Execução**: `npm test`
 
 #### 8. **Autenticação Bearer Token** ✅
-- **Localização**: `src/services/api.js`
+- **Localização**: `src/services/api.js` e `src/context/AuthContext.jsx`
 - **Implementação**: 
   - Interceptors do Axios para Bearer Token automático
   - Headers de autorização em todas as requisições
@@ -88,12 +88,20 @@ npm test
   - Funções para gerenciar token (authService)
 
 #### 9. **CRUD Completo** ✅
-- **Localização**: `src/services/api.js` e `src/pages/`
+- **Localização**: `src/context/ApiContext.jsx` e `src/pages/`
 - **Implementação**:
   - **Create**: Adicionar usuários (`/adicionar`)
   - **Read**: Listar e visualizar usuários (`/home`, `/perfil/:id`)
   - **Update**: Editar usuários inline na Home
   - **Delete**: Excluir usuários com confirmação
+
+#### 10. **Context API** ✅
+- **Localização**: `src/context/`
+- **Implementação**:
+  - `ApiContext.jsx` - Gerencia chamadas à API e estado relacionado
+  - `AuthContext.jsx` - Gerencia autenticação e estado do usuário
+  - Separação de responsabilidades entre componentes e lógica de negócio
+  - Centralização de chamadas à API e gerenciamento de estado
 
 ## 🏗️ Estrutura do Projeto
 
@@ -102,9 +110,13 @@ src/
 ├── components/
 │   ├── LayoutPadrao/     # Layout com navegação
 │   └── Login/            # Componente de login
+├── context/
+│   ├── ApiContext.jsx    # Context para chamadas à API
+│   └── AuthContext.jsx   # Context para autenticação
 ├── pages/
 │   ├── Home.jsx          # Lista de usuários
 │   ├── Perfil.jsx        # Detalhes do usuário
+│   ├── AdicionarUsuario.jsx # Adicionar usuário
 │   └── Registro.jsx      # Cadastro de usuários
 ├── services/
 │   └── api.js            # Serviços da API
@@ -152,10 +164,11 @@ npm run test:ui   # Interface gráfica dos testes
 - **Vite 6.3.5** - Build tool
 - **Vitest 2.1.8** - Framework de testes
 - **Testing Library** - Testes de componentes
+- **Context API** - Gerenciamento de estado
 
 ## 🎉 Projeto Completo!
 
-**Todos os 9 requisitos foram implementados com sucesso!**
+**Todos os 10 requisitos foram implementados com sucesso!**
 
 ### 🔐 Sistema de Autenticação Bearer Token
 
@@ -164,6 +177,18 @@ npm run test:ui   # Interface gráfica dos testes
 - **Interceptors configurados**: Request e Response
 - **Logout automático**: Em caso de erro 401
 - **Gerenciamento**: Funções para set/get/remove token
+
+### 📝 Context API
+
+- **ApiContext**: Centraliza todas as chamadas à API
+  - Gerencia estado de loading e error
+  - Implementa funções para CRUD de usuários
+  - Lida com usuários locais e da API externa
+
+- **AuthContext**: Centraliza autenticação
+  - Gerencia login, logout e registro
+  - Mantém estado do usuário atual
+  - Integra com localStorage para persistência
 
 ### 📝 Melhorias Futuras
 - Sistema de refresh token

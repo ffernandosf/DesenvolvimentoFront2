@@ -1,35 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiService } from '../services/api';
+import { useApi } from '../context/ApiContext';
 
 const AdicionarUsuario = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', website: '' });
-  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
+  const { loading, createUser } = useApi();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     
     try {
-      // Chama a API (simulação)
-      await apiService.createUser(formData);
-      
-      // Salva localmente para exibir na lista
-      const localUsers = JSON.parse(localStorage.getItem('newUsers') || '[]');
-      const newUser = {
-        id: Date.now(), // ID único baseado no timestamp
-        ...formData
-      };
-      localUsers.push(newUser);
-      localStorage.setItem('newUsers', JSON.stringify(localUsers));
-      
+      await createUser(formData);
       alert('Usuário criado com sucesso!');
       navigate('/home');
     } catch (error) {
       alert('Erro ao criar usuário');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -61,13 +47,7 @@ const AdicionarUsuario = () => {
           onChange={(e) => setFormData({...formData, phone: e.target.value})}
           style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
         />
-        <input
-          type="text"
-          placeholder="Website"
-          value={formData.website}
-          onChange={(e) => setFormData({...formData, website: e.target.value})}
-          style={{ padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
-        />
+
         <button
           type="submit"
           disabled={loading}

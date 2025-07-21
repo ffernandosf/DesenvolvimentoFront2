@@ -1,52 +1,31 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import users from '../data/db.json';
+import { useAuth } from '../context/AuthContext';
 
 const Registro = () => {
   const [formData, setFormData] = useState({ name: '', username: '', email: '', password: '' });
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const { register, loading } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setMessage('');
     
     try {
-      // Pega usuários do localStorage ou usa os padrão do db.json
-      const storedUsers = JSON.parse(localStorage.getItem('users') || JSON.stringify(users.users));
+      const result = await register(formData);
       
-      // Verifica se username já existe
-      const userExists = storedUsers.find(u => u.username === formData.username);
-      if (userExists) {
-        setMessage('Nome de usuário já existe!');
-        setLoading(false);
-        return;
+      if (result.success) {
+        setMessage('Usuário criado com sucesso!');
+        setFormData({ name: '', username: '', email: '', password: '' });
+        
+        // Redireciona para login após 2 segundos
+        setTimeout(() => navigate('/'), 2000);
+      } else {
+        setMessage(result.error || 'Erro ao criar usuário');
       }
-
-      // Cria novo usuário
-      const newUser = {
-        id: storedUsers.length + 1,
-        name: formData.name,
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        role: 'User'
-      };
-
-      // Salva no localStorage
-      const updatedUsers = [...storedUsers, newUser];
-      localStorage.setItem('users', JSON.stringify(updatedUsers));
-      
-      setMessage('Usuário criado com sucesso!');
-      setFormData({ name: '', username: '', email: '', password: '' });
-      
-      // Redireciona para login após 2 segundos
-      setTimeout(() => navigate('/'), 2000);
     } catch (error) {
       setMessage('Erro ao criar usuário');
-    } finally {
-      setLoading(false);
     }
   };
 

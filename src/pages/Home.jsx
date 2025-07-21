@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { apiService } from '../services/api';
+import { useApi } from '../context/ApiContext';
 
 const Home = () => {
+  const { loading, error, getUsers, updateUser, deleteUser } = useApi();
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [editingUser, setEditingUser] = useState(null);
   const [editForm, setEditForm] = useState({ name: '', email: '' });
 
@@ -15,18 +14,10 @@ const Home = () => {
 
   const fetchUsers = async () => {
     try {
-      setLoading(true);
-      const data = await apiService.getUsers();
-      
-      // Adiciona usuários criados localmente
-      const localUsers = JSON.parse(localStorage.getItem('newUsers') || '[]');
-      const allUsers = [...data, ...localUsers];
-      
+      const allUsers = await getUsers();
       setUsers(allUsers);
     } catch (err) {
-      setError('Erro ao carregar usuários');
-    } finally {
-      setLoading(false);
+      console.error('Erro ao buscar usuários:', err);
     }
   };
 
@@ -37,19 +28,7 @@ const Home = () => {
 
   const handleUpdate = async (id) => {
     try {
-      // Verifica se é usuário local ou da API
-      const localUsers = JSON.parse(localStorage.getItem('newUsers') || '[]');
-      const isLocalUser = localUsers.some(u => u.id === id);
-      
-      if (isLocalUser) {
-        // Atualiza usuário local
-        const updatedLocalUsers = localUsers.map(u => u.id === id ? { ...u, ...editForm } : u);
-        localStorage.setItem('newUsers', JSON.stringify(updatedLocalUsers));
-      } else {
-        // Chama API para usuários originais
-        await apiService.updateUser(id, editForm);
-      }
-      
+      await updateUser(id, editForm);
       setUsers(users.map(u => u.id === id ? { ...u, ...editForm } : u));
       setEditingUser(null);
     } catch (err) {
@@ -60,19 +39,7 @@ const Home = () => {
   const handleDelete = async (id) => {
     if (confirm('Tem certeza que deseja excluir este usuário?')) {
       try {
-        // Verifica se é usuário local ou da API
-        const localUsers = JSON.parse(localStorage.getItem('newUsers') || '[]');
-        const isLocalUser = localUsers.some(u => u.id === id);
-        
-        if (isLocalUser) {
-          // Remove usuário local
-          const updatedLocalUsers = localUsers.filter(u => u.id !== id);
-          localStorage.setItem('newUsers', JSON.stringify(updatedLocalUsers));
-        } else {
-          // Chama API para usuários originais
-          await apiService.deleteUser(id);
-        }
-        
+        await deleteUser(id);
         setUsers(users.filter(u => u.id !== id));
       } catch (err) {
         alert('Erro ao excluir usuário');

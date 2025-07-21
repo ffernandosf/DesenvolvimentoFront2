@@ -1,35 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import users from '../../data/db.json';
-import { authService } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
   const [usuario, setUsuario] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
   const navigate = useNavigate();
+  const { login, loading } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErro('');
     
-    // Busca usuários do localStorage e do db.json
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const allUsers = [...users.users, ...storedUsers];
+    const result = await login(usuario, senha);
     
-    const user = allUsers.find(u => u.username === usuario && u.password === senha);
-    
-    if (user) {
-      // Gera um token simulado (em produção viria do backend)
-      const token = btoa(`${user.username}:${Date.now()}`);
-      
-      // Salva o token e dados do usuário
-      authService.setToken(token);
-      localStorage.setItem('user', JSON.stringify(user));
-      
+    if (result.success) {
       navigate('/home');
     } else {
-      setErro('Usuário ou senha inválidos');
+      setErro(result.error || 'Usuário ou senha inválidos');
     }
   };
 
@@ -95,18 +84,19 @@ const Login = () => {
           )}
           <button
             type="submit"
+            disabled={loading}
             style={{
               width: '100%',
               padding: '12px',
-              backgroundColor: '#007bff',
+              backgroundColor: loading ? '#ccc' : '#007bff',
               color: 'white',
               border: 'none',
               borderRadius: '4px',
               fontSize: '16px',
-              cursor: 'pointer'
+              cursor: loading ? 'not-allowed' : 'pointer'
             }}
           >
-            Entrar
+            {loading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
         

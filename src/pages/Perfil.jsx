@@ -1,31 +1,32 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; 
-import { apiService } from '../services/api';
+import { useApi } from '../context/ApiContext';
 
 const Perfil = () => {
   const { userId } = useParams();
+  const { loading, error, getUserById } = useApi();
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [localLoading, setLocalLoading] = useState(true);
+  const [localError, setLocalError] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await apiService.getUserById(userId);
+        setLocalLoading(true);
+        const data = await getUserById(userId);
         setUser(data);
+        setLocalError(null);
       } catch (err) {
-        setError('Usuário não encontrado!');
+        setLocalError('Usuário não encontrado!');
       } finally {
-        setLoading(false);
+        setLocalLoading(false);
       }
     };
     fetchUser();
-  }, [userId]);
+  }, [userId, getUserById]);
 
-  if (loading) return <div style={{textAlign: 'center', padding: '20px'}}>Carregando...</div>;
-  if (error) return <div style={{textAlign: 'center', padding: '20px', color: '#dc3545'}}><h1>{error}</h1></div>;
+  if (loading || localLoading) return <div style={{textAlign: 'center', padding: '20px'}}>Carregando...</div>;
+  if (error || localError) return <div style={{textAlign: 'center', padding: '20px', color: '#dc3545'}}><h1>{error || localError}</h1></div>;
 
   // Renderiza apenas as informações do usuário encontrado
   return (
