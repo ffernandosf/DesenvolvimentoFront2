@@ -2,6 +2,12 @@
 
 Sistema de gerenciamento desenvolvido com React, utilizando React Router, Context API, SASS e integração com API externa.
 
+## 🔗 Demo
+
+**Link de acesso**: [https://desenvolvimento-front2.vercel.app/](https://desenvolvimento-front2.vercel.app/)
+
+Acesse a aplicação em produção hospedada na Vercel.
+
 ## 🚀 Como Inicializar o Projeto
 
 ### Pré-requisitos
